@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  php:
+    build: "./dockerfiles/php/"
+    container_name: php-rdkafka
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./src/:/var/www/html/:rw
+    working_dir: /var/www/html
+    networks:
+      - my-kafka-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    links:
+      - php
+    depends_on:
+      - php
+    volumes:
+      #- ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./src/:/var/www/html/:rw
+    working_dir: /var/www/html
+    networks:
+      - my-kafka-network
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - my-kafka-network
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    working_dir: /opt/kafka_2.13-2.8.1/bin
+    networks:
+      - my-kafka-network
+
+networks:
+  my-kafka-network:
