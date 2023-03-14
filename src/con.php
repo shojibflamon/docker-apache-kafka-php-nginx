@@ -9,7 +9,7 @@ $rk = new RdKafka\Consumer($conf);
 $rk->addBrokers("kafka:9092");
 
 
-$topic = $rk->newTopic("test");
+$topic = $rk->newTopic("pos");
 
 // The first argument is the partition to consume from.
 // The second argument is the offset at which to start consumption. Valid values

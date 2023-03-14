@@ -97,4 +97,9 @@ echo '<pre>'.print_r($rk,true).'</pre>';die();
 
 	* kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test
 	* kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic test --from-beginning
+ *
+ *
+ * Delete all data from topics
+ * kafka-topics.sh --zookeeper zookeeper:2181 --delete --topic pos
+ *
  * */

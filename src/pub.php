@@ -16,7 +16,7 @@ if ($producer->addBrokers("kafka:9092") < 1) {
 	exit;
 }
 
-$topic = $producer->newTopic("test");
+$topic = $producer->newTopic("pos");
 
 if (!$producer->getMetadata(false, $topic, 2000)) {
 	echo "Failed to get metadata, is broker down?\n";
